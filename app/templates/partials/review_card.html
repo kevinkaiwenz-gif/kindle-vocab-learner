@@ -1,0 +1,71 @@
+{% if current_word %}
+<div class="review-progress">
+    <span>Reviewed: <strong>{{ reviewed_count }}</strong></span>
+    <span>Remaining: <strong>{{ total_due }}</strong></span>
+</div>
+
+<div class="review-card">
+    <div class="review-sentence">
+        <h3>What does the highlighted word mean?</h3>
+        {% if current_word.usage %}
+        <blockquote class="review-quote">
+            {{ current_word.usage | highlight(current_word.word) }}
+        </blockquote>
+        {% endif %}
+        <p class="review-book">From: <em>{{ current_word.book_title or 'Unknown' }}</em></p>
+    </div>
+
+    <div class="review-answer" id="review-answer" style="display: none;">
+        <div class="answer-reveal">
+            <h2 class="answer-word">{{ current_word.word }}</h2>
+            {% if current_word.stem and current_word.stem != current_word.word %}
+            <p class="answer-stem">Stem: {{ current_word.stem }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="show-answer-btn">
+        <button class="btn btn-primary btn-large" onclick="document.getElementById('review-answer').style.display='block'; document.getElementById('show-answer-btn').style.display='none'; document.getElementById('answer-buttons').style.display='flex';">
+            Show Answer
+        </button>
+    </div>
+
+    <div class="answer-buttons" id="answer-buttons" style="display: none;">
+        <form hx-post="/review/answer" hx-target="#review-container" hx-swap="innerHTML">
+            <input type="hidden" name="word_id" value="{{ current_word.id }}">
+            <input type="hidden" name="reviewed_count" value="{{ reviewed_count }}">
+
+            <div class="btn-group">
+                <button type="submit" name="quality" value="0" class="btn btn-forgot">
+                    Forgot
+                    <span class="btn-hint">Review again soon</span>
+                </button>
+                <button type="submit" name="quality" value="1" class="btn btn-unsure">
+                    Unsure
+                    <span class="btn-hint">Review sooner</span>
+                </button>
+                <button type="submit" name="quality" value="2" class="btn btn-remembered">
+                    Remembered
+                    <span class="btn-hint">Increase interval</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
+<div class="review-complete">
+    {% if reviewed_count > 0 %}
+    <div class="complete-icon">🎉</div>
+    <h2>Review Complete!</h2>
+    <p>You reviewed <strong>{{ reviewed_count }}</strong> word{{ 's' if reviewed_count != 1 else '' }} today.</p>
+    {% else %}
+    <div class="complete-icon">✨</div>
+    <h2>No Words Due</h2>
+    <p>All caught up! Come back later for more reviews.</p>
+    {% endif %}
+    <div class="result-actions">
+        <a href="/words" class="btn btn-primary">Browse Words</a>
+        <a href="/import" class="btn btn-secondary">Import More</a>
+    </div>
+</div>
+{% endif %}

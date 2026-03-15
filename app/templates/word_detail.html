@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}{{ word.word }} - Kindle Vocab Learner{% endblock %}
+
+{% block content %}
+<div class="word-detail">
+    <a href="/words" class="back-link">&larr; Back to Word List</a>
+
+    <div class="word-card-detail">
+        <h1 class="word-title">{{ word.word }}</h1>
+        {% if word.stem and word.stem != word.word %}
+        <p class="word-stem">Stem: <strong>{{ word.stem }}</strong></p>
+        {% endif %}
+
+        {% if word.usage %}
+        <div class="usage-section">
+            <h3>Context</h3>
+            <blockquote class="usage-quote">{{ word.usage }}</blockquote>
+        </div>
+        {% endif %}
+
+        <div class="meta-section">
+            <div class="meta-item">
+                <span class="meta-label">Book</span>
+                <span class="meta-value">{{ word.book_title or 'Unknown' }}</span>
+            </div>
+            {% if word.book_authors %}
+            <div class="meta-item">
+                <span class="meta-label">Author</span>
+                <span class="meta-value">{{ word.book_authors }}</span>
+            </div>
+            {% endif %}
+            <div class="meta-item">
+                <span class="meta-label">Looked up</span>
+                <span class="meta-value">{{ word.lookup_count }} time{{ 's' if word.lookup_count != 1 else '' }}</span>
+            </div>
+            {% if word.lookup_time %}
+            <div class="meta-item">
+                <span class="meta-label">First seen</span>
+                <span class="meta-value">{{ word.lookup_time }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="review-status-section">
+            <h3>Review Status</h3>
+            <div class="review-status-grid">
+                <div class="status-item">
+                    <span class="status-label">Repetitions</span>
+                    <span class="status-value">{{ word.repetitions }}</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Interval</span>
+                    <span class="status-value">{{ word.interval_days }} days</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Ease Factor</span>
+                    <span class="status-value">{{ "%.2f"|format(word.ease_factor) }}</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Next Review</span>
+                    <span class="status-value">{{ word.next_review or 'Now' }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

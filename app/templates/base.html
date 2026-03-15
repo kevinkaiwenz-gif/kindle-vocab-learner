@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Kindle Vocab Learner{% endblock %}</title>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="/">📖 Kindle Vocab Learner</a>
+        </div>
+        <div class="nav-links">
+            <a href="/import" {% if request.url.path == '/import' %}class="active"{% endif %}>Import</a>
+            <a href="/words" {% if request.url.path.startswith('/words') %}class="active"{% endif %}>Words</a>
+            <a href="/review" {% if request.url.path.startswith('/review') %}class="active"{% endif %}>Review</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>Kindle Vocab Learner &mdash; Spaced Repetition for Kindle Vocabulary</p>
+    </footer>
+</body>
+</html>

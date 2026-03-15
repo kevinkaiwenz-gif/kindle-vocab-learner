@@ -1,0 +1,65 @@
+{% if words %}
+<table class="word-table">
+    <thead>
+        <tr>
+            <th>Word</th>
+            <th>Stem</th>
+            <th>Book</th>
+            <th>Lookups</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for w in words %}
+        <tr>
+            <td class="word-cell">
+                <a href="/words/{{ w.id }}">{{ w.word }}</a>
+            </td>
+            <td>{{ w.stem }}</td>
+            <td class="book-cell">{{ w.book_title or '—' }}</td>
+            <td class="center">{{ w.lookup_count }}</td>
+            <td class="center">
+                {% if w.repetitions >= 5 %}
+                <span class="badge badge-mastered">Mastered</span>
+                {% elif w.repetitions > 0 %}
+                <span class="badge badge-learning">Learning</span>
+                {% else %}
+                <span class="badge badge-new">New</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="/words/{{ w.id }}" class="btn btn-small">View</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+    {% if page > 1 %}
+    <a href="/words?page={{ page - 1 }}&q={{ search }}&book_id={{ book_id or '' }}"
+       hx-get="/words?page={{ page - 1 }}&q={{ search }}&book_id={{ book_id or '' }}"
+       hx-target="#word-table-container"
+       class="btn btn-small">&larr; Previous</a>
+    {% endif %}
+
+    <span class="page-info">Page {{ page }} of {{ total_pages }}</span>
+
+    {% if page < total_pages %}
+    <a href="/words?page={{ page + 1 }}&q={{ search }}&book_id={{ book_id or '' }}"
+       hx-get="/words?page={{ page + 1 }}&q={{ search }}&book_id={{ book_id or '' }}"
+       hx-target="#word-table-container"
+       class="btn btn-small">Next &rarr;</a>
+    {% endif %}
+</div>
+{% else %}
+<div class="empty-state">
+    <p>No words found.</p>
+    {% if search or book_id %}
+    <p>Try adjusting your search or filter.</p>
+    {% else %}
+    <p><a href="/import">Import your Kindle vocab.db</a> to get started.</p>
+    {% endif %}
+</div>
+{% endif %}
