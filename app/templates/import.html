@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Import - Kindle Vocab Learner{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Import Kindle Vocabulary</h1>
+    <p>Upload your <code>vocab.db</code> file from your Kindle device.</p>
+    <p class="help-text">
+        Connect your Kindle via USB and find the file at:<br>
+        <code>Kindle/system/vocabulary/vocab.db</code>
+    </p>
+</div>
+
+<div class="import-form-container">
+    <form hx-post="/import"
+          hx-target="#import-result"
+          hx-swap="innerHTML"
+          hx-encoding="multipart/form-data"
+          hx-indicator="#upload-spinner">
+
+        <div class="file-upload">
+            <label for="file" class="file-label">
+                <span class="file-icon">📁</span>
+                <span class="file-text">Choose vocab.db file</span>
+                <input type="file" id="file" name="file" accept=".db" required
+                       onchange="document.querySelector('.file-text').textContent = this.files[0]?.name || 'Choose vocab.db file'">
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Upload & Import
+        </button>
+
+        <div id="upload-spinner" class="spinner htmx-indicator">
+            <div class="spinner-circle"></div>
+            <span>Processing...</span>
+        </div>
+    </form>
+
+    <div id="import-result"></div>
+</div>
+{% endblock %}

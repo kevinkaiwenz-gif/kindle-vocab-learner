@@ -1,0 +1,18 @@
+{% if error %}
+<div class="alert alert-error">
+    <strong>Error:</strong> {{ error }}
+</div>
+{% elif success %}
+<div class="alert alert-success">
+    <strong>Import Complete!</strong>
+    <p>Imported <strong>{{ imported }}</strong> new word{{ 's' if imported != 1 else '' }}.</p>
+    {% if skipped > 0 %}
+    <p>Skipped <strong>{{ skipped }}</strong> duplicate{{ 's' if skipped != 1 else '' }}.</p>
+    {% endif %}
+    <p class="total-info">Total entries in file: {{ total }}</p>
+    <div class="result-actions">
+        <a href="/words" class="btn btn-primary">View Words</a>
+        <a href="/review" class="btn btn-secondary">Start Review</a>
+    </div>
+</div>
+{% endif %}

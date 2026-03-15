@@ -1,0 +1,24 @@
+{% if stats.total_words > 0 %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-number">{{ stats.total_words }}</span>
+        <span class="stat-label">Total Words</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number">{{ stats.due_today }}</span>
+        <span class="stat-label">Due Today</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number">{{ stats.mastered }}</span>
+        <span class="stat-label">Mastered</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number">{{ stats.learning }}</span>
+        <span class="stat-label">Learning</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number">{{ stats.new }}</span>
+        <span class="stat-label">New</span>
+    </div>
+</div>
+{% endif %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Word List - Kindle Vocab Learner{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Word List</h1>
+    <p>{{ total }} word{{ 's' if total != 1 else '' }} in your vocabulary.</p>
+</div>
+
+<div class="filters">
+    <form class="filter-form">
+        <input type="search" name="q" value="{{ search }}" placeholder="Search words..."
+               hx-get="/words" hx-target="#word-table-container" hx-trigger="input changed delay:300ms, search"
+               hx-include="[name='book_id']">
+
+        <select name="book_id"
+                hx-get="/words" hx-target="#word-table-container" hx-trigger="change"
+                hx-include="[name='q']">
+            <option value="">All Books</option>
+            {% for book in books %}
+            <option value="{{ book.id }}" {% if book_id == book.id %}selected{% endif %}>
+                {{ book.title }}
+            </option>
+            {% endfor %}
+        </select>
+    </form>
+</div>
+
+<div id="word-table-container">
+    {% include "partials/word_table.html" %}
+</div>
+{% endblock %}

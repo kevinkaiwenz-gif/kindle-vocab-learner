@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Home - Kindle Vocab Learner{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Kindle Vocab Learner</h1>
+    <p class="subtitle">Turn your Kindle vocabulary into lasting knowledge with spaced repetition.</p>
+
+    <div class="home-cards">
+        <a href="/import" class="home-card">
+            <div class="card-icon">📥</div>
+            <h3>Import</h3>
+            <p>Upload your Kindle vocab.db file to get started.</p>
+        </a>
+
+        <a href="/words" class="home-card">
+            <div class="card-icon">📚</div>
+            <h3>Word List</h3>
+            <p>Browse and search all your imported vocabulary.</p>
+        </a>
+
+        <a href="/review" class="home-card">
+            <div class="card-icon">🧠</div>
+            <h3>Daily Review</h3>
+            <p>Practice words with spaced repetition.</p>
+        </a>
+    </div>
+
+    <div class="stats-section" hx-get="/review/stats" hx-trigger="load" hx-swap="innerHTML">
+        <p class="loading">Loading stats...</p>
+    </div>
+</div>
+{% endblock %}
